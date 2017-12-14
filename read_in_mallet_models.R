@@ -61,12 +61,9 @@ topic.words.all <- rbind(topic.words20,
 topic.words.all.norm <- normalize_rows(topic.words.all,
                                        norm = "L1")
 
-#topic-to-topic JS divergences 
-js.topic.dists.all.norm <- row_dists(topic.words.all.norm) #normalized
-js.topic.dists.all.norm <- as.data.frame(js.topic.dists.all.norm) #turn it into dataframe
+#write a csv here before doing JS
+write.csv(topic.words.all.norm,"topic.words.all.norm.csv")
 
-#save stuff!
-write.csv(js.topic.dists.all.norm,file="js.topic.dists.all.norm.csv")
 
 
 
