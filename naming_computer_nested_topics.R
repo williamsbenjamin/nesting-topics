@@ -19,11 +19,11 @@ root_names <- read_xlsx("topic_names.xlsx",sheet=2,col_names = F)#make into a cs
 root_names <- root_names %>%
   rename("root" = X__1 , "name" = X__2) #make into a csv
 
-branch1_names <- read_xlsx("topic_colors.xlsx",sheet=3,col_names = F) #make into a csv
+branch1_names <- read_xlsx("topic_names.xlsx",sheet=3,col_names = F) #make into a csv
 
 branch1_names <- branch1_names %>%
   rename("branch1" = X__1 , "name1" = X__2)
-branch2_names <- read_xlsx("topic_colors.xlsx",sheet=4,col_names = F)
+branch2_names <- read_xlsx("topic_names.xlsx",sheet=4,col_names = F)
 branch2_names <- branch2_names %>%
   rename("branch2" = X__1 , "name2" = X__2)
 
