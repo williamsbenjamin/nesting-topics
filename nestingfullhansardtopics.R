@@ -19,15 +19,11 @@ test.js <- read_csv("js.topic.dists.all.norm.csv") #adds on a leading column
 js.topic.dists.all.norm <- test.js %>%
                             select(-X1) #remove the first column
 
-#un-normalized
-#js.topic.dists.all <- row_dists(topic.words.all)
-#js.topic.dists.all <- as.data.frame(js.topic.dists.all)
-
-
 #subset js.topic.dists for 4 topics to 20 topics branch, normalized
 js.topic.dists.sub.norm.4.20 <- js.topic.dists.all.norm %>% 
                                             slice(1:4) %>% 
                                             select(5:24)
+
 #row 5 will contain the topic (1-4: from the 4 topic model) 
 #that is closest to each column(5-24 : from the 20 topic model)
 
@@ -53,24 +49,16 @@ xx4.20 %>%
 
 xx4.20 %>% 
   ggplot(aes(y=percents,x=topic))+geom_bar(stat="identity") +
-  # geom_text(aes(label=xx4.20$percents),color="white",
-  #           size=3, position = position_stack(vjust = 0.8)) +
   theme_economist()+
   theme(axis.title.y = element_blank())+
   labs(title="Percent of 20 topics nested by Jensen-Shannon within each of the 4 topics") +
   xlab("topics from 4 topic model")
 
-
-#non-normalized
-#js.topic.dists.sub <- js.topic.dists.all %>% slice(1:4) %>% select(5:24)
-# js.topic.dists.sub[5,] <- apply(js.topic.dists.sub,2,which.min)
-# x <- as.numeric(js.topic.dists.sub[5,])
-# qplot(x,bins=4)
-
 #experiment and look at 20 topics vs 100 topics, with normalized rows
 js.topic.dists.sub.norm.20.100 <- js.topic.dists.all.norm %>% 
                                               slice(5:24) %>% 
                                               select(25:124)
+
 #row 21 will contain the topic (5-24: from the 20 topic model) 
 #that is closest to each column(25-124 : from the 100 topic model)
 js.topic.dists.sub.norm.20.100[21,] <- apply(js.topic.dists.sub.norm.20.100,2,which.min)
@@ -97,8 +85,6 @@ xx20.100 %>%
 xx20.100 %>% 
   ggplot(aes(y=percents,x=topic))+
   geom_bar(stat="identity") +
-  # geom_text(aes(label=xx20.100$percents),
-  #           color="white",size=3, position = position_stack(vjust = 0.8)) +
   theme_economist()+
   theme(axis.title.y = element_blank())+
   labs(title="Percent of 100 topics nested by Jensen-Shannon within each of the 20 topics") +
@@ -109,6 +95,7 @@ xx20.100 %>%
 js.topic.dists.sub.norm.100.500 <- js.topic.dists.all.norm %>% 
                                     slice(25:124) %>% 
                                     select(125:624)
+
 #row 21 will contain the topic (5-24: from the 20 topic model) 
 #that is closest to each column(25-124 : from the 100 topic model)
 js.topic.dists.sub.norm.100.500[501,] <- apply(js.topic.dists.sub.norm.100.500,2,which.min)
@@ -135,8 +122,6 @@ xx100.500 %>%
 xx100.500 %>% 
   ggplot(aes(y=percents,x=topic))+
   geom_bar(stat="identity") +
-  # geom_text(aes(label=xx100.500$percents),
-  #           color="white",size=1, position = position_stack(vjust = 0.8)) +
   theme_economist()+
   theme(axis.title.y = element_blank())+
   labs(title="Percent of 500 topics nested by Jensen Shannon within each of the 100 topics") +
@@ -173,8 +158,6 @@ root1.branch1 <- test.4.20$hier[grep("1-",test.4.20$hier)]
 root2.branch1 <- test.4.20$hier[grep("2-",test.4.20$hier)]
 root3.branch1 <- test.4.20$hier[grep("3-",test.4.20$hier)]
 root4.branch1 <- test.4.20$hier[grep("4-",test.4.20$hier)]
-
-#root.branch1 <- 
 
 
 branch1.5.branch2 <- test.20.100$hier[grep("^5-",test.20.100$hier)]
@@ -300,9 +283,7 @@ branch2.122.branch3 <- test.100.500$hier[grep("^122-",test.100.500$hier)]
 branch2.123.branch3 <- test.100.500$hier[grep("^123-",test.100.500$hier)]
 branch2.124.branch3 <- test.100.500$hier[grep("^124-",test.100.500$hier)]
 
-# filter(test.4.20,branch == 5)$hier
-# filter(test.20.100,root == 5)$hier
-str_sub(filter(test.20.100,root == 20)$hier,3)
+#str_sub(filter(test.20.100,root == 20)$hier,3)
 
 
 #root topic to branch 2 to branch 3
@@ -330,7 +311,7 @@ for(ii in 1:20){
 
 lev <- tibble(hi = unlist(hi.first))
 
-#
+
 #branch 3 to branch 4
 
 #middle branches of 25-99
@@ -375,40 +356,6 @@ lev.all <- lev %>%
 #get the data in format sunburst likes
 lev.sunburst <- lev.all %>%
                   select(-grouping)
+write.csv(lev.sunburst,"lev.sunburst.csv") # this is used to make sunburst in "make_sunburst.R"
 
 
-library(sunburstR)
-
-sunburst(lev.sunburst)
-write.csv(lev.sunburst,"lev.sunburst.csv",row.names=FALSE)
-write.csv(lev.sunburst,"C:/Users/32443181/Box Sync/Digital Land Wars Research/code/sunburst/500-Computer-Nested-Topics/lev.sunburst.csv",row.names=FALSE)
-
-# 
-# 
-# 
-# 
-# str_sub(filter(test.100.500,root == 25 )$hier,3)
-# paste(root1.branch1,branch1.5.branch2,sep="-")
-# substring(test.20.100$hier[grep("^7-",test.20.100$hier)],3)
-# test.20.100$hier[grep("-27$",test.20.100$hier)]
-# regexpr("-27$",test.20.100$hier)
-# #combine the strings as below
-# 
-# 
-# substring(test.4.20$hier[grep("1-",test.4.20$hier)],2)
-# test.20.100$hier[grep("^7-",test.20.100$hier)]
-# 
-# paste(test.4.20$hier[grep("1-",test.4.20$hier)],
-#       substring(test.20.100$hier[grep("^7-",test.20.100$hier)],3),sep="-")
-# 
-# 
-# 
-# 
-# get(ls()[grep("^hierarch_",ls())][5])
-# 
-# 
-# 
-# 
-# 
-# 
-# 
