@@ -13,9 +13,11 @@ library(bigtabulate)
 library(bigmemory)
 library(stringr)
 library(ggthemes)
+library(philentropy)
 
 #Read in the distance matrix, could be JS could be KL
-test.js <- read_csv("js.topic.dists.all.norm.csv") #adds on a leading column
+#test.js <- read_csv("js.topic.dists.all.norm.csv") #adds on a leading column
+test.js <- read_csv("js.topic.dists.all.norm.m2.csv") #adds on a leading column
 js.topic.dists.all.norm <- test.js %>%
                             select(-X1) #remove the first column
 

@@ -52,8 +52,8 @@ topic.words100 <- topic_words(m100)
 topic.words500 <- topic_words(m500)
 
 #combine the topic models
-topic.words.all <- rbind(topic.words20,
-                         topic.words4,
+topic.words.all <- rbind(topic.words4,
+                         topic.words20,
                          topic.words100,
                          topic.words500)
 
@@ -61,8 +61,20 @@ topic.words.all <- rbind(topic.words20,
 topic.words.all.norm <- normalize_rows(topic.words.all,
                                        norm = "L1")
 
-#write a csv here before doing JS
-write.csv(topic.words.all.norm,"topic.words.all.norm.csv")
+#get topic-to-topic JS divergences 
+js.topic.dists.all.norm <- row_dists(topic.words.all.norm) 
+
+js.topic.dists.all.norm <- as.data.frame(js.topic.dists.all.norm) #turn it into dataframe
+
+#save it!
+write.csv(js.topic.dists.all.norm,file="js.topic.dists.all.norm.csv")
+
+kl.topic.dists.all.norm <- KLdiv(as.matrix(topic.words.all.norm)) 
+
+kl.topic.dists.all.norm <- as.data.frame(kl.topic.dists.all.norm) #turn it into dataframe
+#save it!
+write.csv(kl.topic.dists.all.norm,file="kl.topic.dists.all.norm.m2.csv")
+
 
 
 
